@@ -307,6 +307,21 @@ services:
       - DIODE_IMPORT_GET_FROM_DIRECTORY_PATH=/path
       - DIODE_IMPORT_GET_FROM_DIRECTORY_RETENTION=7
     restart: always
+  
+  connector-mitre-atlas:
+    image: opencti/connector-mitre-atlas:6.2.11
+    environment:
+      - OPENCTI_URL=http://opencti:8080
+      - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
+      - CONNECTOR_ID=b5c800cf-a8fc-478e-ba63-6e619c7cbfd2
+      - "CONNECTOR_NAME=MITRE ATLAS"
+      - CONNECTOR_SCOPE=identity,attack-pattern,course-of-action,relationship,x-mitre-collection,x-mitre-matrix,x-mitre-tactic
+      - CONNECTOR_CONFIDENCE_LEVEL=75 # From 0 (Unknown) to 100 (Fully trusted)
+      - CONNECTOR_RUN_AND_TERMINATE=false
+      - CONNECTOR_LOG_LEVEL=error
+      - MITRE_ATLAS_URL=https://raw.githubusercontent.com/mitre-atlas/atlas-navigator-data/main/dist/stix-atlas.json
+      - MITRE_ATLAS_INTERVAL=7 # In days, must be strictly greater than 1
+    restart: always
 
 volumes:
   esdata:
